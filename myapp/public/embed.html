@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div id = "sisenseApp">
+            <!-- place holder for showing first widget -->
+            <div id = "widget1" style = "height: 400px; width: 35%; float: left; top: 0px; display: inline; margin-top:30px;"></div>
+            <div>Some content here </div>
+            <!-- place holder for showing second  widget -->
+            <div id = "widget2" style = "height: 400px; width: 35%; float: right; top: 0px; display: inline; margin-top:30px;"></div>
+        </div>
+        
+        <script type="text/javascript" src="https://icargo-neo-demo.ibsplc.org/analytics/js/sisense.js"></script> <!-- replace with your Sisense server address -->
+        <script type = "text/javascript">
+            alert('trying to connect to sisense ');
+            //Sisense.connect('http://10.246.13.46:30845/') // replace with your Sisense server address
+            //Sisense.connect('https://localhost:5010/analytics/') // replace with your Sisense server address
+            Sisense.connect('https://icargo-neo-demo.ibsplc.org/analytics/')
+            .then((app) => {
+                console.log(' Connect success ');
+                alert('Connect success  ');
+                app.dashboards.load('64538c5aa0571b002a100cb1') //replace with your dashboard id
+                .then((dash) => {
+                    dash.widgets.get('6453c094a0571b002a100cb3').container = document.getElementById("widget1"); //replace with one of your widgets' id.
+                    dash.widgets.get('6453c0d9a0571b002a100cb5').container = document.getElementById("widget2"); //replace with one of your widgets' id.
+                    dash.refresh();
+                })
+                .catch((e) => {
+                    console.log(' Loading failed outer catch '); 
+                    alert('Loading failed outer catch ');
+                    console.error(e);
+                });
+            })
+            .catch((e) => {
+                console.log(' Connect failed outer catch '); 
+                alert('Connect failed outer catch ');
+                console.error(e);
+            });
+        </script>
+    </body>
+</html>
